@@ -22,15 +22,39 @@ def test_button_increments_counter():
 
 def test_button_decrements_counter():
     # TODO test that the decrement button works
-    pass
+    at = AppTest.from_file("app.py").run()
+
+    at.session_state.count = 2
+    at.button(key="decrement").click().run()
+    assert at.session_state.count == 1
+
+    at.button(key="decrement").click().run()
+    assert at.sesstion_state.count == 0
 
 def test_button_increments_counter_ten_x():
     # TODO test that the increment button works in ten_x mode
-    pass
+    at = AppTest.from_file("app.py").run()
+    at.checkbox(key="ten_x").check().run()
+
+    assert at.session_state.count == 0
+    at.button(key="increment").click().run()
+    assert at.session_state.count == 10
+
+    at.button(key="increment").click().run()
+    assert at.session_state.count == 20
 
 def test_button_decrements_counter_ten_x():
     # TODO test that the decrement button works in ten_x mode
-    pass
+    at = AppTest.from_file("app.py").run()
+    at.checkbox(key="ten_x").check().run()
+
+    at.session_state.count = 20
+    assert at.session_state.count == 20
+    at.button(key="decrement").click().run()
+    assert at.session_state.count == 10
+
+    at.button(key="decrement").click().run()
+    assert at.session_state.count == 0
 
 def test_output_text_correct():
     """Test that the text shows the correct value."""
